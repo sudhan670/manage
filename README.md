@@ -21,8 +21,8 @@ Things you may want to cover:
 
 * Services (job queues, cache servers, search engines, etc.)
 * Admin Dashboard
-* <img src="https://github.com/sudhan670/manage/blob/main/admin.png" alt=""/>
+  <img src="https://github.com/sudhan670/manage/blob/main/admin.png" alt=""/>
 
-* Meeting Booking
-* <img src="https://github.com/sudhan670/manage/blob/main/code1.png" alit=""/>
+* Meeting Booking Registration
+  <img src="https://github.com/sudhan670/manage/blob/main/code1.png" alit=""/>
 
