@@ -23,6 +23,6 @@ Things you may want to cover:
 * Admin Dashboard
 * <img src="https://github.com/sudhan670/manage/blob/main/admin.png" alt=""/>
 
-* Deployment instructions
+* Meeting Booking
+* <img src="https://github.com/sudhan670/manage/blob/main/code1.png" alit=""/>
 
-* ...
