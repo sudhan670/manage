@@ -1,0 +1,7 @@
+<% if current_user.meeting_participants.where(status: 'pending').any? %>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="tab" href="#invitations">
+      Pending Invitations <span class="badge bg-warning"><%= current_user.meeting_participants.where(status: 'pending').count %></span>
+    </a>
+  </li>
+<% end %>

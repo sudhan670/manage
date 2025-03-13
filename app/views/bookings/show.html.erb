@@ -1,0 +1,48 @@
+<h1>Meeting Details</h1>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Booking Information</h5>
+    <p><strong>Room:</strong> <%= @booking.room.name %></p>
+    <p><strong>Date:</strong> <%= @booking.start_time.to_date %></p>
+    <p><strong>Time:</strong> <%= @booking.start_time.strftime("%H:%M") %> - <%= @booking.end_time.strftime("%H:%M") %></p>
+    <p><strong>Duration:</strong> <%= @booking.duration_in_hours %> hours</p>
+    <p><strong>Status:</strong> 
+      <span class="badge bg-<%= @booking.status == 'confirmed' ? 'success' : (@booking.status == 'canceled' ? 'danger' : 'warning') %>">
+        <%= @booking.status.capitalize %>
+      </span>
+    </p>
+    <p><strong>Organizer:</strong> <%= @booking.user.name %> (<%= @booking.user.position %>)</p>
+  </div>
+</div>
+
+<% if @booking.meeting_participants.any? %>
+  <h2>Participants</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Position</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @booking.meeting_participants.includes(:user).each do |participant| %>
+        <tr>
+          <td><%= participant.user.name %></td>
+          <td><%= participant.user.position %></td>
+          <td>
+            <span class="badge bg-<%= participant.status == 'accepted' ? 'success' : (participant.status == 'rejected' ? 'danger' : 'warning') %>">
+              <%= participant.status.capitalize %>
+            </span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<% if @booking.can_cancel? && @booking.user == current_user %>
+  <%= link_to "Cancel Booking", booking_path(@booking), method: :delete, data: { confirm: "Are you sure you want to cancel this booking?" }, class: "btn btn-danger" %>
+<% end %>
+<%= link_to "Back to Bookings", bookings_path, class: "btn btn-secondary" %>
