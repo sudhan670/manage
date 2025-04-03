@@ -24,7 +24,7 @@ Rails.application.configure do
   else
     config.action_controller.perform_caching = false
   end
-
+  config.action_controller.raise_on_missing_callback_actions = false
   # Change to :null_store to avoid any caching.
   config.cache_store = :memory_store
 

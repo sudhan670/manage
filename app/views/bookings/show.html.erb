@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<% if @booking.meeting_participants.any? %>
+<% if @booking.meeting_participants.exists? %>
   <h2>Participants</h2>
   <table class="table table-striped">
     <thead>
@@ -24,6 +24,9 @@
         <th>Name</th>
         <th>Position</th>
         <th>Status</th>
+        <% if @booking.meeting_participants.find_by(user: current_user) %>
+          <th>Action</th>
+        <% end %>
       </tr>
     </thead>
     <tbody>
@@ -36,6 +39,12 @@
               <%= participant.status.capitalize %>
             </span>
           </td>
+          <% if participant.user == current_user && participant.status == "pending" %>
+            <td>
+              <%= button_to "Accept", respond_to_invitation_booking_path(@booking, response: "accept"), method: :post, class: "btn btn-success btn-sm" %>
+              <%= button_to "Reject", respond_to_invitation_booking_path(@booking, response: "reject"), method: :post, class: "btn btn-danger btn-sm" %>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>

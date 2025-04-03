@@ -38,7 +38,7 @@ class Booking < ApplicationRecord
   end
   
   def booking_in_half_hour_slots
-    unless start_time.min % 30 == 0 && end_time.min % 30 == 0
+    unless start_time.min % 180 == 0 && end_time.min % 180 == 0
       errors.add(:base, "Bookings must be in half-hour slots")
     end
   end

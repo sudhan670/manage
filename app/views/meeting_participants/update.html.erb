@@ -1,7 +1,33 @@
-<% if current_user.meeting_participants.where(status: 'pending').any? %>
-  <li class="nav-item">
-    <a class="nav-link" data-bs-toggle="tab" href="#invitations">
-      Pending Invitations <span class="badge bg-warning"><%= current_user.meeting_participants.where(status: 'pending').count %></span>
-    </a>
-  </li>
-<% end %>
+<div class="tab-pane fade" id="invitations">
+  <% invitations = current_user.meeting_participants.includes(booking: :user).order('bookings.start_time') %>
+  <% if invitations.any? %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Room</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Organizer</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% invitations.each do |invitation| %>
+          <% booking = invitation.booking %>
+          <tr>
+            <td><%= booking.room.name %></td>
+            <td><%= booking.start_time.to_date %></td>
+            <td><%= booking.start_time.strftime("%H:%M") %> - <%= booking.end_time.strftime("%H:%M") %></td>
+            <td><%= booking.user.name %> (<%= booking.user.position %>)</td>
+            <td>
+              <%= button_to "Accept", meeting_participant_path(invitation, meeting_participant: { status: 'accepted' }), method: :patch, class: "btn btn-success btn-sm me-2" %>
+              <%= button_to "Reject", meeting_participant_path(invitation, meeting_participant: { status: 'rejected' }), method: :patch, class: "btn btn-danger btn-sm" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No pending invitations.</p>
+  <% end %>
+</div>

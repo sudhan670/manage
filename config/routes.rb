@@ -15,6 +15,15 @@ Rails.application.routes.draw do
     get 'dashboard', to: 'admin#dashboard'
     resources :users, only: [:index, :edit, :update]
   end
+  resources :bookings do
+    collection do
+      get :my_invitations
+    end
+    member do
+      post :invite
+      post :respond_to_invitation
+    end
+  end
   
   root to: 'rooms#index'
 end
